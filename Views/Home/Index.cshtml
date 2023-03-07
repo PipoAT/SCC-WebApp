@@ -16,26 +16,6 @@
         <br>
         <h3>Neccesary Settings</h3>
         <br>
-        <h6>Available Serial Ports</h6>
-        @if (Model.Length == 0)
-        {
-            <p>No serial ports found.</p>
-        }
-        else
-        {
-            <select name="PORT" id="PORT">
-                <option value = "none" selected disabled hidden>Select PORT</option>
-
-                @foreach (var port in Model)
-                {
-                        <option value="@port">@port</option>
-                }
-
-            </select>
-                
-        }
-        <br>
-        <br>
         <h6>Select BAUD</h6>
         <select name="BAUD" id="BAUD">
             <option value="none" selected disabled hidden>Select BAUDRATE</option>
