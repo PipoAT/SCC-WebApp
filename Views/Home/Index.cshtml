@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="header">
+    <h1 class="display-4">Serial COM Communications - Web Application</h1>
+    <h2>Developed by Andrew Pipo</h2>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <br>
+</div>
+<br>
+
+<div class ="row">
+<div class="panel">
+    <br>
+    <h3>Available Serial Ports</h3>
+    @if (Model.Length == 0)
+    {
+        <p>No serial ports found.</p>
+    }
+    else
+    {
+
+            @foreach (var port in Model)
+            {
+                <li>@port</li>
+            }
+            
+    }
+    <br>
+</div>
+<br>
+<div class="panel">
+<br>
+<label for="BAUD">Select BAUDRATE</label>
+<select name="BAUD" id="BAUD">
+    <option value="75">75</option>
+    <option value="110">110</option>
+    <option value="134">134</option>
+    <option value="150">150</option>
+    <option value="300">300</option>
+    <option value="600">600</option>
+    <option value="1200">1200</option>
+    <option value="1800">1800</option>
+    <option value="2400">2400</option>
+    <option value="4800">4800</option>
+    <option value="7200">7200</option>
+    <option value="9600">9600</option>
+    <option value="14400">14400</option>
+    <option value="19200">19200</option>
+    <option value="38400">38400</option>
+    <option value="57600">57600</option>
+    <option value="115200">115200</option>
+    <option value="128000">128000</option>
+</select>
+<br>
+</div>
+<br>
+<div class="panel">
+    <br>
+    <h3>Send Data</h3>
+    <br>
+    <button onclick="sendData()">Send Data</button>
+    <br>
+    <br>
+</div>
+<br>
+<div class="panel">
+    <br>
+    <h3>Receive Data</h3>
+    <br>
+    <button onclick="receiveData()">Receive Data</button>
+    <br>
+    <p id="received-data"></p>
+    <br>
+    <br>
+</div>
+<br>
+</div>
