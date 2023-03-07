@@ -30,17 +30,22 @@ h2 {
   color: #00457c;
 }
 
-li {
-  text-align: center;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  
+.sendbutton {
+
+  background-color: lightseagreen;
+
 }
+
+.receivebutton {
+
+  background-color: lightcoral;
+
+}
+
 
 .panel {
 
-  width: 300px;
+  width: 250px;
   text-align: center;
   outline-style: solid;
   outline-width: medium;
@@ -53,7 +58,7 @@ li {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 1200px; /* Set the maximum width */
+  max-width: 750px; /* Set the maximum width */
   margin: 0 auto; /* Center the container */
   background: #eee;
   position: relative;
@@ -66,14 +71,15 @@ li {
 
 .header {
 
-  width: auto;
+  max-width: 750px; /* Set the maximum width */
   outline-style: solid;
   outline-width: medium;
   background-color: #eee;
   text-align: center;
+  margin: 0 auto; /* Center the container */
 }
 
 .footer {
 
-  background-color: #eee;
+  background-color: white;
 }

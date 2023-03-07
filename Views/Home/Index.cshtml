@@ -4,7 +4,7 @@
 
 
 <div class="header">
-    <h1 class="display-4">Serial COM Communications - Web Application</h1>
+    <h1 class="display-4">Serial COM Communications Web Application</h1>
     <h2>Developed by Andrew Pipo</h2>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <br>
@@ -12,71 +12,136 @@
 <br>
 
 <div class ="row">
-<div class="panel">
-    <br>
-    <h3>Available Serial Ports</h3>
-    @if (Model.Length == 0)
-    {
-        <p>No serial ports found.</p>
-    }
-    else
-    {
+    <div class="panel">
+        <br>
+        <h6>Available Serial Ports</h6>
+        @if (Model.Length == 0)
+        {
+            <p>No serial ports found.</p>
+        }
+        else
+        {
+            <select name="PORT" id="PORT">
 
-            @foreach (var port in Model)
-            {
-                <li>@port</li>
-            }
-            
-    }
+                @foreach (var port in Model)
+                {
+                        <option value="@port">@port</option>
+                }
+
+            </select>
+                
+        }
+        <br>
+        <br>
+        <h6>Select BAUD</h6>
+        <select name="BAUD" id="BAUD">
+            <option value="none" selected disabled hidden>Select BAUDRATE</option>
+            <option value="75">75</option>
+            <option value="110">110</option>
+            <option value="134">134</option>
+            <option value="150">150</option>
+            <option value="300">300</option>
+            <option value="600">600</option>
+            <option value="1200">1200</option>
+            <option value="1800">1800</option>
+            <option value="2400">2400</option>
+            <option value="4800">4800</option>
+            <option value="7200">7200</option>
+            <option value="9600">9600</option>
+            <option value="14400">14400</option>
+            <option value="19200">19200</option>
+            <option value="38400">38400</option>
+            <option value="57600">57600</option>
+            <option value="115200">115200</option>
+            <option value="128000">128000</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select Parity</h6>
+        <select name="Parity" id="Parity">
+            <option value="none" selected disabled hidden>Select Parity Option</option>
+            <option value="None">None</option>
+            <option value="Even">Even</option>
+            <option value="Odd">Odd</option>
+            <option value="Mark">Mark</option>
+            <option value="Space">Space</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select DataBits</h6>
+        <select name="DataBits" id="DataBits">
+            <option value="none" selected disabled hidden>Select DataBits Option</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select StopBits</h6>
+        <select name="StopBits" id="StopBits">
+            <option value="none" selected disabled hidden>Select StopBits Option</option>
+            <option value="1">1</option>
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+        </select>
+        <br>
+        <br>
+    </div>
     <br>
-</div>
-<br>
-<div class="panel">
-<br>
-<h3>Select BAUD</h3>
-<br>
-<select name="BAUD" id="BAUD">
-    <option value="none" selected disabled hidden>Select an Option</option>
-    <option value="75">75</option>
-    <option value="110">110</option>
-    <option value="134">134</option>
-    <option value="150">150</option>
-    <option value="300">300</option>
-    <option value="600">600</option>
-    <option value="1200">1200</option>
-    <option value="1800">1800</option>
-    <option value="2400">2400</option>
-    <option value="4800">4800</option>
-    <option value="7200">7200</option>
-    <option value="9600">9600</option>
-    <option value="14400">14400</option>
-    <option value="19200">19200</option>
-    <option value="38400">38400</option>
-    <option value="57600">57600</option>
-    <option value="115200">115200</option>
-    <option value="128000">128000</option>
-</select>
-<br>
-</div>
-<br>
-<div class="panel">
+    <div class="panel">
+        <br>
+        <h6>Select Read Timeout</h6>
+        <select name="ReadTimeout" id="ReadTimeout">
+            <option value="none" selected disabled hidden>Select Read Timeout Option</option>
+            <option value="-1">-1</option>
+            <option value="500">500</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select Write Timeout</h6>
+        <select name="WriteTimeout" id="WriteTimeout">
+            <option value="none" selected disabled hidden>Select Write Timeout Option</option>
+            <option value="-1">-1</option>
+            <option value="500">500</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select Handshake</h6>
+        <select name="Handshake" id="Handshake">
+            <option value="none" selected disabled hidden>Select Handshake Option</option>
+            <option value="None">None</option>
+            <option value="XOnXOff">XOnXOff</option>
+            <option value="Request Send">Request Send</option>
+            <option value="Request XOnXOff">Request XOnXOff</option>
+        </select>
+        <br>
+        <br>
+        <h6>Select DataBits</h6>
+        <select name="Delay" id="Delay">
+            <option value="none" selected disabled hidden>Select Delay (ms) Option</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="5000">5000</option>
+        </select>
+        <br>
+        <br>
+    </div>
     <br>
-    <h3>Send Data</h3>
-    <br>
-    <button onclick="sendData()">Send Data</button>
-    <br>
-    <br>
-</div>
-<br>
-<div class="panel">
-    <br>
-    <h3>Receive Data</h3>
-    <br>
-    <button onclick="receiveData()">Receive Data</button>
-    <br>
-    <p id="received-data"></p>
-    <br>
-    <br>
-</div>
-<br>
+    <div class="panel">
+        <br>
+        <h3>Send Data</h3>
+        <br>
+        <button class="sendbutton" onclick="sendData()">Send Data</button>
+        <br>
+        <br>
+        <h3>Receive Data</h3>
+        <br>
+        <button class="receivebutton" onclick="receiveData()">Receive Data</button>
+        <br>
+        <p id="received-data"></p>
+        <br>
+        <br>
+    </div>
 </div>

@@ -24,6 +24,11 @@ public class HomeController : Controller
         return View(ports);
     }
 
+    public IActionResult Updates() {
+        
+        return View();
+    }
+
     public IActionResult Privacy()
     {
         return View();

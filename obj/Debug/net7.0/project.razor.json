@@ -18660,6 +18660,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "t:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\Views\\Home\\Updates.cshtml",
+      "TargetPath": "Views\\Home\\Updates.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "t:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
