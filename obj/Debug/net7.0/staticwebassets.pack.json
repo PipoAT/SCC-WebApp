@@ -9,10 +9,6 @@
       "PackagePath": "staticwebassets\\css\\Images\\background-UCCEAS.jpg"
     },
     {
-      "Id": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\background-gif.gif",
-      "PackagePath": "staticwebassets\\css\\Images\\background-gif.gif"
-    },
-    {
       "Id": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

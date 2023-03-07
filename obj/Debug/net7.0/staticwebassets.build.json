@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S0ZzLhuDgF/VKkTWawMrHuiO9QD6OK1t0oLYMIkzF38=",
+  "Hash": "TsrpNJ7bUdConGxMWnirSgVKMW1EPdll2Wyqm/yvYmI=",
   "Source": "SCC",
   "BasePath": "_content/SCC",
   "Mode": "Default",
@@ -49,23 +49,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\SCC.bundle.scp.css"
-    },
-    {
-      "Identity": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\background-gif.gif",
-      "SourceId": "SCC",
-      "SourceType": "Discovered",
-      "ContentRoot": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\",
-      "BasePath": "_content/SCC",
-      "RelativePath": "css/Images/background-gif.gif",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Images\\background-gif.gif"
     },
     {
       "Identity": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\background-UCCEAS.jpg",

@@ -47,20 +47,19 @@ h2 {
 .panel {
 
   width: 400px;
+  border-radius: 25px;
   text-align: center;
-  outline-style: solid;
-  outline-width: medium;
-  outline-color: #00457c;
 
 }
 
 .row {
 
   display: flex;
+  border-radius: 25px;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 1200px; /* Set the maximum width */
-  margin: 0 auto; /* Center the container */
+  margin: auto; /* Center the container */
   background: #eee;
   position: relative;
   text-align:center;
@@ -73,6 +72,7 @@ h2 {
 .header {
 
   max-width: 1200px; /* Set the maximum width */
+  border-radius: 25px;
   outline-style: solid;
   outline-width: medium;
   background-color: #eee;
