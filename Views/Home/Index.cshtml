@@ -14,6 +14,8 @@
 <div class ="row">
     <div class="panel">
         <br>
+        <h3>Neccesary Settings</h3>
+        <br>
         <h6>Available Serial Ports</h6>
         @if (Model.Length == 0)
         {
@@ -22,6 +24,7 @@
         else
         {
             <select name="PORT" id="PORT">
+                <option value = "none" selected disabled hidden>Select PORT</option>
 
                 @foreach (var port in Model)
                 {
@@ -59,12 +62,12 @@
         <br>
         <h6>Select Parity</h6>
         <select name="Parity" id="Parity">
-            <option value="none" selected disabled hidden>Select Parity Option</option>
-            <option value="None">None</option>
-            <option value="Even">Even</option>
-            <option value="Odd">Odd</option>
-            <option value="Mark">Mark</option>
-            <option value="Space">Space</option>
+            <option value="" selected disabled hidden>Select Parity Option</option>
+            <option value="none">None</option>
+            <option value="even">Even</option>
+            <option value="odd">Odd</option>
+            <option value="mark">Mark</option>
+            <option value="space">Space</option>
         </select>
         <br>
         <br>
@@ -91,6 +94,8 @@
     <br>
     <div class="panel">
         <br>
+        <h3>Optional Settings</h3>
+        <br>
         <h6>Select Read Timeout</h6>
         <select name="ReadTimeout" id="ReadTimeout">
             <option value="none" selected disabled hidden>Select Read Timeout Option</option>
@@ -109,15 +114,15 @@
         <br>
         <h6>Select Handshake</h6>
         <select name="Handshake" id="Handshake">
-            <option value="none" selected disabled hidden>Select Handshake Option</option>
-            <option value="None">None</option>
-            <option value="XOnXOff">XOnXOff</option>
-            <option value="Request Send">Request Send</option>
-            <option value="Request XOnXOff">Request XOnXOff</option>
+            <option value="" selected disabled hidden>Select Handshake Option</option>
+            <option value="none">None</option>
+            <option value="software">Software (XON/XOFF)</option>
+            <option value="hardware">Hardware (RTS/CTS)</option>
+            <option value="xon">XOnXOff</option>
         </select>
         <br>
         <br>
-        <h6>Select DataBits</h6>
+        <h6>Select Delay (ms)</h6>
         <select name="Delay" id="Delay">
             <option value="none" selected disabled hidden>Select Delay (ms) Option</option>
             <option value="100">100</option>

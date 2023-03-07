@@ -5,6 +5,11 @@
 
 let selectedBaudRate = 0;
 let selectedDataBits = 0;
+let selectedStopBits = 0;
+let selectedRT = 0;
+let selectedWT = 0;
+let selectedParity = "";
+let selectedHandshake = "";
 
 // Add an event listener to the dropdown menu
 const baudDropdown = document.getElementById("BAUD");
@@ -12,9 +17,34 @@ baudDropdown.addEventListener("change", () => {
   selectedBaudRate = parseInt(baudDropdown.value);
 });
 
+const parityDropdown = document.getElementById("Parity");
+parityDropdown.addEventListener("change", () => {
+  selectedParity = parityDropdown.value;
+});
+
 const dataBitsDropdown = document.getElementById("DataBits");
 dataBitsDropdown.addEventListener("change", () => {
   selectedDataBits = parseInt(dataBitsDropdown.value);
+});
+
+const stopBitsDropdown = document.getElementById("StopBits");
+stopBitsDropdown.addEventListener("change", () => {
+  selectedStopBits = parseInt(stopBitsDropdown.value);
+});
+
+const RTDropdown = document.getElementById("ReadTimeout");
+RTDropdown.addEventListener("change", () => {
+  selectedRT = parseInt(RTDropdown.value);
+});
+
+const WTDropdown = document.getElementById("WriteTimeout");
+WTDropdown.addEventListener("change", () => {
+  selectedWT = parseInt(WTDropdown.value);
+});
+
+const HandshakeDropdown = document.getElementById("Handshake");
+HandshakeDropdown.addEventListener("change", () => {
+  selectedHandshake = HandshakeDropdown.value;
 });
 
 async function receiveData() {
@@ -23,7 +53,15 @@ async function receiveData() {
     const port = await navigator.serial.requestPort();
 
     // Open the serial port with a baud rate of 1200
-    await port.open({ baudRate: selectedBaudRate, dataBits: selectedDataBits });
+    await port.open({
+      parity: selectedParity,
+      baudRate: selectedBaudRate,
+      dataBits: selectedDataBits,
+      stopBits: selectedStopBits,
+      readTimeout: selectedRT,
+      writeTimeout: selectedWT,
+      handshake: selectedHandshake
+    });
 
     // Create a reader object for receiving data
     const reader = port.readable.getReader();
@@ -50,7 +88,15 @@ async function sendData() {
     const port = await navigator.serial.requestPort();
 
     // Open the serial port with a baud rate of 1200
-    await port.open({ baudRate: selectedBaudRate });
+    await port.open({
+      parity: selectedParity,
+      baudRate: selectedBaudRate,
+      dataBits: selectedDataBits,
+      stopBits: selectedStopBits,
+      readTimeout: selectedRT,
+      writeTimeout: selectedWT,
+      handshake: selectedHandshake
+    });
 
     // Create a writer object for sending data
     const writer = port.writable.getWriter();

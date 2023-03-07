@@ -30,6 +30,7 @@ h2 {
   color: #00457c;
 }
 
+
 .sendbutton {
 
   background-color: lightseagreen;
@@ -45,7 +46,7 @@ h2 {
 
 .panel {
 
-  width: 250px;
+  width: 400px;
   text-align: center;
   outline-style: solid;
   outline-width: medium;
@@ -58,7 +59,7 @@ h2 {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 750px; /* Set the maximum width */
+  max-width: 1200px; /* Set the maximum width */
   margin: 0 auto; /* Center the container */
   background: #eee;
   position: relative;
@@ -71,7 +72,7 @@ h2 {
 
 .header {
 
-  max-width: 750px; /* Set the maximum width */
+  max-width: 1200px; /* Set the maximum width */
   outline-style: solid;
   outline-width: medium;
   background-color: #eee;
