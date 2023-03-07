@@ -3,13 +3,21 @@
 
 // Write your JavaScript code.
 
+let selectedBaudRate = 0;
+
+// Add an event listener to the dropdown menu
+const baudDropdown = document.getElementById("BAUD");
+baudDropdown.addEventListener("change", () => {
+  selectedBaudRate = parseInt(baudDropdown.value);
+});
+
 async function receiveData() {
   for (let i = 0; i < 1; i++) {
     // Request permission to access the serial port
     const port = await navigator.serial.requestPort();
 
     // Open the serial port with a baud rate of 1200
-    await port.open({ baudRate: 9600 });
+    await port.open({ baudRate: selectedBaudRate });
 
     // Create a reader object for receiving data
     const reader = port.readable.getReader();
@@ -36,7 +44,7 @@ async function sendData() {
     const port = await navigator.serial.requestPort();
 
     // Open the serial port with a baud rate of 1200
-    await port.open({ baudRate: 1200 });
+    await port.open({ baudRate: selectedBaudRate });
 
     // Create a writer object for sending data
     const writer = port.writable.getWriter();

@@ -42,6 +42,9 @@ li {
 
   width: 300px;
   text-align: center;
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: #00457c;
 
 }
 
@@ -50,7 +53,8 @@ li {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: auto;
+  max-width: 1200px; /* Set the maximum width */
+  margin: 0 auto; /* Center the container */
   background: #eee;
   position: relative;
   text-align:center;
