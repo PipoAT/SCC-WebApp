@@ -10,6 +10,7 @@ let selectedRT = 0;
 let selectedWT = 0;
 let selectedParity = "";
 let selectedHandshake = "";
+let selectedDelay = 1000;
 
 // Add an event listener to the dropdown menu
 const baudDropdown = document.getElementById("BAUD");
@@ -47,8 +48,13 @@ HandshakeDropdown.addEventListener("change", () => {
   selectedHandshake = HandshakeDropdown.value;
 });
 
+const DelayDropdown = document.getElementById("Delay");
+DelayDropdown.addEventListener("change", () => {
+  selectedDelay = parseInt(DelayDropdown.value);
+});
+
 async function receiveData() {
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 3; i++) {
     // Request permission to access the serial port
     const port = await navigator.serial.requestPort();
 
@@ -83,7 +89,7 @@ async function receiveData() {
 }
 
 async function sendData() {
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 3; i++) {
     // Request permission to access the serial port
     const port = await navigator.serial.requestPort();
 
@@ -107,5 +113,8 @@ async function sendData() {
     // Close the writer and serial port
     writer.close();
     port.close();
+
+    await new Promise(resolve => setTimeout(resolve, selectedDelay));
+
   }
 }
