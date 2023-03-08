@@ -54,7 +54,12 @@ DelayDropdown.addEventListener("change", () => {
 });
 
 async function receiveData() {
-  for (let i = 0; i < 3; i++) {
+
+  const logTransmission = document.getElementById(
+    "log"
+  ).checked;
+
+  for (let i = 0; i < 1; i++) {
     // Request permission to access the serial port
     const port = await navigator.serial.requestPort();
 
@@ -66,7 +71,7 @@ async function receiveData() {
       stopBits: selectedStopBits,
       readTimeout: selectedRT,
       writeTimeout: selectedWT,
-      handshake: selectedHandshake
+      handshake: selectedHandshake,
     });
 
     // Create a reader object for receiving data
@@ -78,18 +83,51 @@ async function receiveData() {
     // Convert the received data to a string
     const receivedData = new TextDecoder().decode(value);
 
+
     // Close the reader and serial port
-    reader.cancel();
-    port.close();
+    try {
+      await reader.cancel();
+    } catch (e) {
+      console.error("Failed to close writer: " + e);
+    }
 
     // Display the received data in the first <p> tag
     const p = document.getElementById("received-data");
     p.textContent = receivedData;
+
+    if (logTransmission) {
+      // Log the transmission to a file
+      const logFileName = "transmission.txt";
+      const logData = p.textContent;
+    
+      // Get a directory handle for the directory where you want to save the file
+      const dirHandle = await window.showDirectoryPicker();
+      const fileHandle = await dirHandle.getFileHandle(logFileName, {
+        create: true,
+      });
+      const writable = await fileHandle.createWritable();
+      await writable.seek(writable.length); // move the file pointer to the end of the file
+      await writable.write(logData);
+      await writable.close();
+      
+    }
+
+    try {
+      await port.close();
+    } catch (e) {
+      console.error("Failed to close port: " + e);
+    }
+
   }
+  
 }
 
 async function sendData() {
-  for (let i = 0; i < 3; i++) {
+  const logTransmission = document.getElementById(
+    "log"
+  ).checked;
+
+  for (let i = 0; i < 1; i++) {
     // Request permission to access the serial port
     const port = await navigator.serial.requestPort();
 
@@ -101,7 +139,7 @@ async function sendData() {
       stopBits: selectedStopBits,
       readTimeout: selectedRT,
       writeTimeout: selectedWT,
-      handshake: selectedHandshake
+      handshake: selectedHandshake,
     });
 
     // Create a writer object for sending data
@@ -110,11 +148,38 @@ async function sendData() {
     // Send the data
     await writer.write(new TextEncoder().encode("Hello, world!"));
 
-    // Close the writer and serial port
-    writer.close();
-    port.close();
+    // Close the writer
+    try {
+      await writer.close();
+    } catch (e) {
+      console.error("Failed to close writer: " + e);
+    }
 
-    await new Promise(resolve => setTimeout(resolve, selectedDelay));
+    if (logTransmission) {
+      // Log the transmission to a file
+      const logFileName = "transmission.txt";
+      const logData = "Transmission #" + (i + 1) + ": Hello, world!\n";
+    
+      // Get a directory handle for the directory where you want to save the file
+      const dirHandle = await window.showDirectoryPicker();
+      const fileHandle = await dirHandle.getFileHandle(logFileName, {
+        create: true,
+      });
+      const writable = await fileHandle.createWritable();
+      await writable.seek(writable.length); // move the file pointer to the end of the file
+      await writable.write(logData);
+      await writable.close();
+      
+    }
+    
 
+    // Close the serial port
+    try {
+      await port.close();
+    } catch (e) {
+      console.error("Failed to close port: " + e);
+    }
   }
 }
+
+
