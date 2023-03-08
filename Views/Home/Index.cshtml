@@ -2,22 +2,31 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
 
-<div class="header">
-    <h1 class="display-4">Serial COM Communications Web Application</h1>
-    <h2>Developed by Andrew Pipo</h2>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>UPDATE (3/8/2023):</strong> Started Implementation of Bootstrap 5 Framework
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="row">
+    <br>
+    <p class ="h1 text-primary">Serial COM Communications Web Application</p>
+    <p class ="h2 text-secondary">Developed by Andrew Pipo</p>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <br>
-</div>
-<br>
-
-<div class ="row">
-    <div class="panel">
+    <hr class="solid">
+    <div class="col-sm-6">
         <br>
-        <h3>Neccesary Settings</h3>
+        <p class="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">Neccesary Settings</p>
         <br>
-        <h6>Select BAUD</h6>
-        <select name="BAUD" id="BAUD">
+        <p class="h6">Select BAUD</p>
+        <select class="form-select-sm" aria-label="Dropdown for BAUDRATE Setting" name="BAUD" id="BAUD">
             <option value="none" selected disabled hidden>Select BAUDRATE</option>
             <option value="75">75</option>
             <option value="110">110</option>
@@ -40,8 +49,8 @@
         </select>
         <br>
         <br>
-        <h6>Select Parity</h6>
-        <select name="Parity" id="Parity">
+        <p class="h6">Select Parity</p>
+        <select class="form-select-sm" aria-label="Dropdown for Parity Setting" name="Parity" id="Parity">
             <option value="" selected disabled hidden>Select Parity Option</option>
             <option value="none">None</option>
             <option value="even">Even</option>
@@ -51,8 +60,8 @@
         </select>
         <br>
         <br>
-        <h6>Select DataBits</h6>
-        <select name="DataBits" id="DataBits">
+        <p class="h6">Select DataBits</p>
+        <select class="form-select-sm" aria-label="Dropdown for DataBits Setting" name="DataBits" id="DataBits">
             <option value="none" selected disabled hidden>Select DataBits Option</option>
             <option value="5">5</option>
             <option value="6">6</option>
@@ -61,8 +70,8 @@
         </select>
         <br>
         <br>
-        <h6>Select StopBits</h6>
-        <select name="StopBits" id="StopBits">
+        <p class="h6">Select StopBits</p>
+        <select class="form-select-sm" aria-label="Dropdown for StopBits Setting" name="StopBits" id="StopBits">
             <option value="none" selected disabled hidden>Select StopBits Option</option>
             <option value="1">1</option>
             <option value="1.5">1.5</option>
@@ -72,28 +81,28 @@
         <br>
     </div>
     <br>
-    <div class="panel">
+    <div class="col-sm-6">
         <br>
-        <h3>Optional Settings</h3>
+        <p class ="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">Optional Settings</p>
         <br>
-        <h6>Select Read Timeout</h6>
-        <select name="ReadTimeout" id="ReadTimeout">
+        <p class = "h6">Select Read Timeout</p>
+        <select class="form-select-sm" aria-label="Dropdown for ReadTimeout Setting" name="ReadTimeout" id="ReadTimeout">
             <option value="none" selected disabled hidden>Select Read Timeout Option</option>
             <option value="-1">-1</option>
             <option value="500">500</option>
         </select>
         <br>
         <br>
-        <h6>Select Write Timeout</h6>
-        <select name="WriteTimeout" id="WriteTimeout">
+        <p class="h6">Select Write Timeout</p>
+        <select class="form-select-sm" aria-label="Dropdown for WriteTimeout Setting" name="WriteTimeout" id="WriteTimeout">
             <option value="none" selected disabled hidden>Select Write Timeout Option</option>
             <option value="-1">-1</option>
             <option value="500">500</option>
         </select>
         <br>
         <br>
-        <h6>Select Handshake</h6>
-        <select name="Handshake" id="Handshake">
+        <p class="h6">Select Handshake</p>
+        <select class="form-select-sm" aria-label="Dropdown for Handshake Setting" name="Handshake" id="Handshake">
             <option value="" selected disabled hidden>Select Handshake Option</option>
             <option value="none">None</option>
             <option value="software">Software (XON/XOFF)</option>
@@ -102,8 +111,8 @@
         </select>
         <br>
         <br>
-        <h6>Select Delay (ms)</h6>
-        <select name="Delay" id="Delay">
+        <p class="h6">Select Delay (ms)</p>
+        <select class="form-select-sm" aria-label="Dropdown for Delay Setting" name="Delay" id="Delay">
             <option value="none" selected disabled hidden>Select Delay (ms) Option</option>
             <option value="100">100</option>
             <option value="500">500</option>
@@ -114,16 +123,19 @@
         <br>
     </div>
     <br>
-    <div class="panel">
+    <hr class="solid">
+    <div class="col-sm-6">
         <br>
-        <h3>Send Data</h3>
+        <p class="h3">Send Data</p>
         <br>
-        <button class="sendbutton" onclick="sendData()">Send Data</button>
+        <button class="btn btn-primary" onclick="sendData()">Send Data</button>
         <br>
+    </div>
+    <div class="col-sm-6">
         <br>
-        <h3>Receive Data</h3>
+        <p class="h3">Receive Data</p>
         <br>
-        <button class="receivebutton" onclick="receiveData()">Receive Data</button>
+        <button class="btn btn-primary" onclick="receiveData()">Receive Data</button>
         <br>
         <p id="received-data"></p>
         <br>

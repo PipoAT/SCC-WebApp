@@ -13,7 +13,6 @@ html {
 }
 
 html {
-  position: relative;
   min-height: 100%;
 }
 
@@ -25,62 +24,21 @@ body {
   background-position: center;
 }
 
-h2 {
-  font: 'Times New Roman';
-  color: #00457c;
-}
-
-
-.sendbutton {
-
-  background-color: lightseagreen;
-
-}
-
-.receivebutton {
-
-  background-color: lightcoral;
-
-}
-
-
-.panel {
-
-  width: 400px;
-  border-radius: 25px;
-  text-align: center;
-
-}
-
 .row {
 
   display: flex;
   border-radius: 25px;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 1200px; /* Set the maximum width */
-  margin: auto; /* Center the container */
+  margin: 0 auto; /* Center the container */
+  text-align: center;
   background: #eee;
   position: relative;
-  text-align:center;
   outline-style: solid;
   outline-width: medium;
   outline-color: #00457c;
+  
 
 }
 
-.header {
-
-  max-width: 1200px; /* Set the maximum width */
-  border-radius: 25px;
-  outline-style: solid;
-  outline-width: medium;
-  background-color: #eee;
-  text-align: center;
-  margin: 0 auto; /* Center the container */
-}
-
-.footer {
-
-  background-color: white;
+hr.solid {
+  border: 5px solid #00457c;
 }
