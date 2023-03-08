@@ -38,3 +38,5 @@ T:\APIPO\Dev\C#\C# MVC\SCC\bin\Debug\net7.0\runtimes\osx-x64\native\libSystem.IO
 T:\APIPO\Dev\C#\C# MVC\SCC\bin\Debug\net7.0\runtimes\unix\lib\net7.0\System.IO.Ports.dll
 T:\APIPO\Dev\C#\C# MVC\SCC\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.IO.Ports.dll
 T:\APIPO\Dev\C#\C# MVC\SCC\obj\Debug\net7.0\SCC.csproj.CopyComplete
+T:\APIPO\Dev\C#\C# MVC\SCC\bin\Debug\net7.0\package-lock.json
+T:\APIPO\Dev\C#\C# MVC\SCC\bin\Debug\net7.0\package.json
