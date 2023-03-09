@@ -89,9 +89,8 @@ async function receiveData() {
       console.error("Failed to close writer: " + e);
     }
 
-    // Display the received data in the first <p> tag
-    const p = document.getElementById("received-data");
-    p.textContent = receivedData;
+    // Display the received data
+    document.getElementById("Output").value = receivedData;
 
     if (logTransmission) {
       // Log the transmission to a file
@@ -134,7 +133,6 @@ async function sendData() {
 
   do {
     // Request permission to access the serial port
-    
 
     // Open the serial port with a baud rate of 1200
     await port.open({
@@ -151,7 +149,13 @@ async function sendData() {
     const writer = port.writable.getWriter();
 
     // Send the data
-    await writer.write(new TextEncoder().encode("Hello, world!"));
+    if (document.getElementById("Mode").value == "Send Mode") {
+        await writer.write(
+          new TextEncoder().encode(parseInt(document.getElementById("Input").value))
+        );
+    } else {
+      alert("ATTENTION: Send Mode not active!");
+    }
 
     // Close the writer
     try {
@@ -162,7 +166,7 @@ async function sendData() {
 
     if (logTransmission) {
       // Log the transmission to a file
-      const logData = "Transmission: Hello, world!\n";
+      const logData = "Transmission: " + document.getElementById("Input").value;
 
       // Get a directory handle for the directory where you want to save the file
       const writable = await fileHandle.createWritable();
@@ -177,6 +181,8 @@ async function sendData() {
     } catch (e) {
       console.error("Failed to close port: " + e);
     }
+
+    await new Promise(resolve => setTimeout(resolve, selectedDelay));
     repeatTransmission = document.getElementById("repeat").checked;
   } while (repeatTransmission);
 }

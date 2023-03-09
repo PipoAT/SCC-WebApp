@@ -22,23 +22,46 @@ body {
   background-size: cover;
   background-repeat: fill;
   background-position: center;
+  margin: 0 auto; /* Center the container */
 }
 
 .row {
 
   display: flex;
   border-radius: 25px;
-  margin: 0 auto; /* Center the container */
   text-align: center;
   background: #eee;
   position: relative;
   outline-style: solid;
   outline-width: medium;
   outline-color: #00457c;
-  
+
 
 }
 
 hr.solid {
   border: 5px solid #00457c;
+}
+
+input[type=radio] {
+  width: 15px;
+  height: 15px;
+
+}
+
+.col-sm-4 {
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.form-check-label {
+  margin-left: 10px;
+}
+
+.form-control {
+  height: 30px;
 }

@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>UPDATE (3/8/2023):</strong> Started Implementation of Bootstrap 5 Framework. Improved Sending and Receiving JS Functionality. Design Changes.
+  <strong>UPDATE (3/9/2023):</strong> Added Design Aspects for New Features. Delay Dropdown issue fixed. NOTE: Most of the new Features DO NOT Work as the JavaScript Code is not in place.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
@@ -20,12 +20,14 @@
     <p class ="h2 text-secondary">Developed by Andrew Pipo</p>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <br>
-    <p class="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">Neccesary Settings <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
-    <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
-    </svg></p>
     <br>
     <br>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <p class="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">Port Settings <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
+        <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
+        </svg></p>
+        <br>
+        <br>
         <p class="h6">Select BAUD</p>
         <select class="form-select-sm" aria-label="Dropdown for BAUDRATE Setting" name="BAUD" id="BAUD">
             <option value="none" selected disabled hidden>Select BAUDRATE</option>
@@ -82,7 +84,12 @@
         <br>
     </div>
     <br>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <p class="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3"> More Port Settings <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
+        <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
+        </svg></p>
+        <br>
+        <br>
         <p class = "h6">Select Read Timeout</p>
         <select class="form-select-sm" aria-label="Dropdown for ReadTimeout Setting" name="ReadTimeout" id="ReadTimeout">
             <option value="none" selected disabled hidden>Select Read Timeout Option</option>
@@ -117,6 +124,45 @@
             <option value="1000">1000</option>
             <option value="5000">5000</option>
         </select>
+        <br>
+        <br>
+    </div>
+    <div class="col-sm-4">
+        <p class="h3 p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">I/O Settings <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
+        <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
+        </svg></p>
+        <br>
+        <br>
+        <p class="h6">Select Mode</p>
+        <select class="form-select-sm" aria-label="Dropdown for Mode Setting" name="Mode" id="Mode">
+            <option value="Idle Mode">Idle Mode</option>
+            <option value="Send Mode">Send Mode</option>
+            <option value="Receive Mode">Receive Mode</option>
+            <option value="Send and Receive Mode">Send and Receive Mode</option>
+        </select>
+        <br>
+        <br>
+        <p class="h6">Select Data Type</p>
+        <select class="form-select-sm" aria-label="Dropdown for DataType Setting" name="DataType" id="DataType">
+            <option value="none" selected disabled hidden>Select Data Type Option</option>
+            <option value="Byte">Byte</option>
+            <option value="String">String</option>
+            <option value="BC">Byte Collection</option>
+            <option value="ASCII">ASCII</option>
+            <option value="HEX">HEX</option>
+        </select>
+        <br>
+        <br>
+        <p class="h6">Tx Data Input</p>
+        <form id="inputForm">
+        <input class="form-control w-100" type="text" aria-label="Input" id="Input">
+        </form>
+        <br>
+        <br>
+        <p class="h6">Rx Data Output</p>
+        <form id="outputForm">
+        <input class="form-control w-100" type="text" aria-label="Output" id="Output">
+        </form>
         <br>
         <br>
     </div>
