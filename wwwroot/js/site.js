@@ -11,6 +11,7 @@ let selectedWT = 0;
 let selectedParity = "";
 let selectedHandshake = "";
 let selectedDelay = 1000;
+let stopLoop = false;
 
 // Add an event listener to the dropdown menu
 const baudDropdown = document.getElementById("BAUD");
@@ -53,6 +54,11 @@ DelayDropdown.addEventListener("change", () => {
   selectedDelay = parseInt(DelayDropdown.value);
 });
 
+const stopButton = document.querySelector('#stop-button');
+stopButton.addEventListener('click', () => {
+  stopLoop = true;
+});
+
 function a2hex(str) {
   var arr = [];
   for (var i = 0, l = str.length; i < l; i ++) {
@@ -77,7 +83,9 @@ function animateBackgroundrec() {
 }
 
 
+
 async function receiveData() {
+  stopLoop = false;
   const logTransmission = document.getElementById("log").checked;
   const port = await navigator.serial.requestPort();
   const dirHandle = await window.showDirectoryPicker();
@@ -87,16 +95,18 @@ async function receiveData() {
     // Request permission to access the serial port
 
     // Open the serial port with a baud rate of 1200
-    await port.open({
-      parity: selectedParity,
-      baudRate: selectedBaudRate,
-      dataBits: selectedDataBits,
-      stopBits: selectedStopBits,
-      readTimeout: selectedRT,
-      writeTimeout: selectedWT,
-      handshake: selectedHandshake,
-    });
-
+    
+    if (!port.isOpen) {
+      await port.open({
+        parity: selectedParity,
+        baudRate: selectedBaudRate,
+        dataBits: selectedDataBits,
+        stopBits: selectedStopBits,
+        readTimeout: selectedRT,
+        writeTimeout: selectedWT,
+        handshake: selectedHandshake,
+      });
+    }
     // Create a reader object for receiving data
     const reader = port.readable.getReader();
 
@@ -141,12 +151,17 @@ async function receiveData() {
       console.error("Failed to close port: " + e);
     }
 
+    if (stopLoop) {
+      break;
+    }
+
     // Check if the "Repeat Transmission?" checkbox is checked
     repeatTransmission = document.getElementById("repeat").checked;
   } while (repeatTransmission);
 }
 
 async function sendData() {
+  stopLoop = false;
   const logTransmission = document.getElementById("log").checked;
   const port = await navigator.serial.requestPort();
   const dirHandle = await window.showDirectoryPicker();
@@ -159,15 +174,17 @@ async function sendData() {
     // Request permission to access the serial port
 
     // Open the serial port with a baud rate of 1200
-    await port.open({
-      parity: selectedParity,
-      baudRate: selectedBaudRate,
-      dataBits: selectedDataBits,
-      stopBits: selectedStopBits,
-      readTimeout: selectedRT,
-      writeTimeout: selectedWT,
-      handshake: selectedHandshake,
-    });
+    if (!port.isOpen) {
+      await port.open({
+        parity: selectedParity,
+        baudRate: selectedBaudRate,
+        dataBits: selectedDataBits,
+        stopBits: selectedStopBits,
+        readTimeout: selectedRT,
+        writeTimeout: selectedWT,
+        handshake: selectedHandshake,
+      });
+    }
 
     // Create a writer object for sending data
     const writer = port.writable.getWriter();
@@ -253,6 +270,10 @@ async function sendData() {
       await port.close();
     } catch (e) {
       console.error("Failed to close port: " + e);
+    }
+
+    if (stopLoop) {
+      break;
     }
 
     await new Promise(resolve => setTimeout(resolve, selectedDelay));
