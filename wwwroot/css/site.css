@@ -18,7 +18,9 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-image: url('Images/background-UCCEAS.jpg');
+  /* background-image: url('Images/background-UCCEAS.jpg'); */
+  background-color: #FFFFFF;
+  transition: background-color 2s ease-in-out;
   background-size: cover;
   background-repeat: fill;
   background-position: center;
@@ -64,4 +66,12 @@ input[type=radio] {
 
 .form-control {
   height: 30px;
+}
+
+.animate {
+  background-color: lightseagreen;
+}
+
+.animaterec {
+  background-color: lightcoral;
 }

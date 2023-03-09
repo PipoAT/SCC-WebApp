@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TsrpNJ7bUdConGxMWnirSgVKMW1EPdll2Wyqm/yvYmI=",
+  "Hash": "ufhSKSkYTGIsjmJ9kqNkZWm2a/TzsaFG/zdFCbnUKyg=",
   "Source": "SCC",
   "BasePath": "_content/SCC",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Images\\background-UCCEAS.jpg"
+    },
+    {
+      "Identity": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\Thumbs.db",
+      "SourceId": "SCC",
+      "SourceType": "Discovered",
+      "ContentRoot": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\",
+      "BasePath": "_content/SCC",
+      "RelativePath": "css/Images/Thumbs.db",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Images\\Thumbs.db"
     },
     {
       "Identity": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\site.css",

@@ -62,6 +62,21 @@ function a2hex(str) {
   return arr.join('');
 }
 
+function animateBackground() {
+  document.body.classList.add("animate");
+  setTimeout(() => {
+    document.body.classList.remove("animate");
+  }, 2000);
+}
+
+function animateBackgroundrec() {
+  document.body.classList.add("animaterec");
+  setTimeout(() => {
+    document.body.classList.remove("animaterec");
+  }, 2000);
+}
+
+
 async function receiveData() {
   const logTransmission = document.getElementById("log").checked;
   const port = await navigator.serial.requestPort();
@@ -90,7 +105,7 @@ async function receiveData() {
 
     // Convert the received data to a string
     const receivedData = new TextDecoder().decode(value);
-
+    animateBackgroundrec();
     // Close the reader and serial port
     try {
       await reader.cancel();
@@ -161,7 +176,8 @@ async function sendData() {
     if (document.getElementById("Mode").value == "Send Mode") {
       if (document.getElementById("DataType").value == "String") {
         await writer.write(
-          new TextEncoder().encode(document.getElementById("Input").value)
+          new TextEncoder().encode(document.getElementById("Input").value),
+          animateBackground()
         );
 
         if (logTransmission) {
@@ -180,7 +196,8 @@ async function sendData() {
       }
       else if (document.getElementById("DataType").value == "ASCII") {
         await writer.write(
-          new TextEncoder().encode(String.fromCharCode(document.getElementById("Input").value))
+          new TextEncoder().encode(String.fromCharCode(document.getElementById("Input").value)),
+          animateBackground()
         );
         
         if (logTransmission) {
@@ -198,7 +215,8 @@ async function sendData() {
       }
       else if (document.getElementById("DataType").value == "HEX") {
         await writer.write(
-          new TextEncoder().encode(a2hex(document.getElementById("Input").value))
+          new TextEncoder().encode(a2hex(document.getElementById("Input").value)),
+          animateBackground()
         );
 
         if (logTransmission) {

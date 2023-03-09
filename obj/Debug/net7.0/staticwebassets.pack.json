@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\SCC.bundle.scp.css"
     },
     {
+      "Id": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\Thumbs.db",
+      "PackagePath": "staticwebassets\\css\\Images\\Thumbs.db"
+    },
+    {
       "Id": "T:\\APIPO\\Dev\\C#\\C# MVC\\SCC\\wwwroot\\css\\Images\\background-UCCEAS.jpg",
       "PackagePath": "staticwebassets\\css\\Images\\background-UCCEAS.jpg"
     },
