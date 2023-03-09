@@ -53,6 +53,15 @@ DelayDropdown.addEventListener("change", () => {
   selectedDelay = parseInt(DelayDropdown.value);
 });
 
+function a2hex(str) {
+  var arr = [];
+  for (var i = 0, l = str.length; i < l; i ++) {
+    var hex = Number(str.charCodeAt(i)).toString(16);
+    arr.push(hex.length > 1 && hex || "0" + hex);
+  }
+  return arr.join('');
+}
+
 async function receiveData() {
   const logTransmission = document.getElementById("log").checked;
   const port = await navigator.serial.requestPort();
@@ -150,9 +159,64 @@ async function sendData() {
 
     // Send the data
     if (document.getElementById("Mode").value == "Send Mode") {
+      if (document.getElementById("DataType").value == "String") {
         await writer.write(
-          new TextEncoder().encode(parseInt(document.getElementById("Input").value))
+          new TextEncoder().encode(document.getElementById("Input").value)
         );
+
+        if (logTransmission) {
+          // Log the transmission to a file
+          const logData = "Transmission: " + document.getElementById("Input").value;
+    
+          // Get a directory handle for the directory where you want to save the file
+          const writable = await fileHandle.createWritable();
+          const logFile = await fileHandle.getFile();
+          const existingData = await logFile.text();
+          await writable.seek(writable.length); // move the file pointer to the end of the file
+          await writable.write(existingData + logData + '\n');
+          await writable.close();
+        }
+
+      }
+      else if (document.getElementById("DataType").value == "ASCII") {
+        await writer.write(
+          new TextEncoder().encode(String.fromCharCode(document.getElementById("Input").value))
+        );
+        
+        if (logTransmission) {
+          // Log the transmission to a file
+          const logData = "Transmission: " + String.fromCharCode(document.getElementById("Input").value);
+    
+          // Get a directory handle for the directory where you want to save the file
+          const writable = await fileHandle.createWritable();
+          const logFile = await fileHandle.getFile();
+          const existingData = await logFile.text();
+          await writable.seek(writable.length); // move the file pointer to the end of the file
+          await writable.write(existingData + logData + '\n');
+          await writable.close();
+        }
+      }
+      else if (document.getElementById("DataType").value == "HEX") {
+        await writer.write(
+          new TextEncoder().encode(a2hex(document.getElementById("Input").value))
+        );
+
+        if (logTransmission) {
+          // Log the transmission to a file
+          const logData = "Transmission: " + a2hex(document.getElementById("Input").value);
+    
+          // Get a directory handle for the directory where you want to save the file
+          const writable = await fileHandle.createWritable();
+          const logFile = await fileHandle.getFile();
+          const existingData = await logFile.text();
+          await writable.seek(writable.length); // move the file pointer to the end of the file
+          await writable.write(existingData + logData + '\n');
+          await writable.close();
+        }
+      }
+      else {
+        alert("ATTENTION: Invalid Data Type");
+      }
     } else {
       alert("ATTENTION: Send Mode not active!");
     }
@@ -164,16 +228,7 @@ async function sendData() {
       console.error("Failed to close writer: " + e);
     }
 
-    if (logTransmission) {
-      // Log the transmission to a file
-      const logData = "Transmission: " + document.getElementById("Input").value;
-
-      // Get a directory handle for the directory where you want to save the file
-      const writable = await fileHandle.createWritable();
-      await writable.seek(writable.length); // move the file pointer to the end of the file
-      await writable.write(logData);
-      await writable.close();
-    }
+    
 
     // Close the serial port
     try {
