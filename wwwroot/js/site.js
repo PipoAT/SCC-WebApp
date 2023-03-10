@@ -54,18 +54,18 @@ DelayDropdown.addEventListener("change", () => {
   selectedDelay = parseInt(DelayDropdown.value);
 });
 
-const stopButton = document.querySelector('#stop-button');
-stopButton.addEventListener('click', () => {
+const stopButton = document.querySelector("#stop-button");
+stopButton.addEventListener("click", () => {
   stopLoop = true;
 });
 
 function a2hex(str) {
   var arr = [];
-  for (var i = 0, l = str.length; i < l; i ++) {
+  for (var i = 0, l = str.length; i < l; i++) {
     var hex = Number(str.charCodeAt(i)).toString(16);
-    arr.push(hex.length > 1 && hex || "0" + hex);
+    arr.push((hex.length > 1 && hex) || "0" + hex);
   }
-  return arr.join('');
+  return arr.join("");
 }
 
 function animateBackground() {
@@ -82,7 +82,17 @@ function animateBackgroundrec() {
   }, 2000);
 }
 
-
+function TxRxCaller() {
+  if (document.getElementById("Mode").value == "Send Mode") {
+    sendData();
+  } else if (document.getElementById("Mode").value == "Receive Mode") {
+    receiveData();
+  } else {
+    alert(
+      "Attention: Application is in Idle Mode. Please configure settings and try again."
+    );
+  }
+}
 
 async function receiveData() {
   stopLoop = false;
@@ -95,7 +105,7 @@ async function receiveData() {
     // Request permission to access the serial port
 
     // Open the serial port with a baud rate of 1200
-    
+
     if (!port.isOpen) {
       await port.open({
         parity: selectedParity,
@@ -129,7 +139,7 @@ async function receiveData() {
     if (logTransmission) {
       // Log the transmission to a file
       const logFileName = "transmission.txt";
-      const logData = p.textContent;
+      const logData = receivedData;
 
       // Get a directory handle for the directory where you want to save the file
 
@@ -155,6 +165,7 @@ async function receiveData() {
       break;
     }
 
+    await new Promise((resolve) => setTimeout(resolve, selectedDelay));
     // Check if the "Repeat Transmission?" checkbox is checked
     repeatTransmission = document.getElementById("repeat").checked;
   } while (repeatTransmission);
@@ -188,82 +199,104 @@ async function sendData() {
 
     // Create a writer object for sending data
     const writer = port.writable.getWriter();
+    // Get the input element
+    var inputElement = document.getElementById("Input");
+
+    // Get the input value and convert it to a UTF-8 encoded byte array
+    var utf8Encoder = new TextEncoder();
+    var utf8EncodedArray = utf8Encoder.encode(inputElement.value);
+
+    // Store the encoded byte array in a buffer variable
+    var buf = new Uint8Array(utf8EncodedArray);
 
     // Send the data
-    if (document.getElementById("Mode").value == "Send Mode") {
-      if (document.getElementById("DataType").value == "String") {
-        await writer.write(
-          new TextEncoder().encode(document.getElementById("Input").value),
-          animateBackground()
-        );
+    if (
+      document.getElementById("DataType").value == "Byte" ||
+      document.getElementById("DataType").value == "BC"
+    ) {
+      await writer.write(new TextEncoder().encode(buf), animateBackground());
 
-        if (logTransmission) {
-          // Log the transmission to a file
-          const logData = "Transmission: " + document.getElementById("Input").value;
-    
-          // Get a directory handle for the directory where you want to save the file
-          const writable = await fileHandle.createWritable();
-          const logFile = await fileHandle.getFile();
-          const existingData = await logFile.text();
-          await writable.seek(writable.length); // move the file pointer to the end of the file
-          await writable.write(existingData + logData + '\n');
-          await writable.close();
-        }
+      if (logTransmission) {
+        // Log the transmission to a file
+        const logData = "Transmission: " + buf;
 
+        // Get a directory handle for the directory where you want to save the file
+        const writable = await fileHandle.createWritable();
+        const logFile = await fileHandle.getFile();
+        const existingData = await logFile.text();
+        await writable.seek(writable.length); // move the file pointer to the end of the file
+        await writable.write(existingData + logData + "\n");
+        await writable.close();
       }
-      else if (document.getElementById("DataType").value == "ASCII") {
-        await writer.write(
-          new TextEncoder().encode(String.fromCharCode(document.getElementById("Input").value)),
-          animateBackground()
-        );
-        
-        if (logTransmission) {
-          // Log the transmission to a file
-          const logData = "Transmission: " + String.fromCharCode(document.getElementById("Input").value);
-    
-          // Get a directory handle for the directory where you want to save the file
-          const writable = await fileHandle.createWritable();
-          const logFile = await fileHandle.getFile();
-          const existingData = await logFile.text();
-          await writable.seek(writable.length); // move the file pointer to the end of the file
-          await writable.write(existingData + logData + '\n');
-          await writable.close();
-        }
-      }
-      else if (document.getElementById("DataType").value == "HEX") {
-        await writer.write(
-          new TextEncoder().encode(a2hex(document.getElementById("Input").value)),
-          animateBackground()
-        );
+    } else if (document.getElementById("DataType").value == "String") {
+      await writer.write(
+        new TextEncoder().encode(document.getElementById("Input").value),
+        animateBackground()
+      );
 
-        if (logTransmission) {
-          // Log the transmission to a file
-          const logData = "Transmission: " + a2hex(document.getElementById("Input").value);
-    
-          // Get a directory handle for the directory where you want to save the file
-          const writable = await fileHandle.createWritable();
-          const logFile = await fileHandle.getFile();
-          const existingData = await logFile.text();
-          await writable.seek(writable.length); // move the file pointer to the end of the file
-          await writable.write(existingData + logData + '\n');
-          await writable.close();
-        }
+      if (logTransmission) {
+        // Log the transmission to a file
+        const logData =
+          "Transmission: " + document.getElementById("Input").value;
+
+        // Get a directory handle for the directory where you want to save the file
+        const writable = await fileHandle.createWritable();
+        const logFile = await fileHandle.getFile();
+        const existingData = await logFile.text();
+        await writable.seek(writable.length); // move the file pointer to the end of the file
+        await writable.write(existingData + logData + "\n");
+        await writable.close();
       }
-      else {
-        alert("ATTENTION: Invalid Data Type");
+    } else if (document.getElementById("DataType").value == "ASCII") {
+      await writer.write(
+        new TextEncoder().encode(
+          String.fromCharCode(document.getElementById("Input").value)
+        ),
+        animateBackground()
+      );
+
+      if (logTransmission) {
+        // Log the transmission to a file
+        const logData =
+          "Transmission: " +
+          String.fromCharCode(document.getElementById("Input").value);
+
+        // Get a directory handle for the directory where you want to save the file
+        const writable = await fileHandle.createWritable();
+        const logFile = await fileHandle.getFile();
+        const existingData = await logFile.text();
+        await writable.seek(writable.length); // move the file pointer to the end of the file
+        await writable.write(existingData + logData + "\n");
+        await writable.close();
+      }
+    } else if (document.getElementById("DataType").value == "HEX") {
+      await writer.write(
+        new TextEncoder().encode(a2hex(document.getElementById("Input").value)),
+        animateBackground()
+      );
+
+      if (logTransmission) {
+        // Log the transmission to a file
+        const logData =
+          "Transmission: " + a2hex(document.getElementById("Input").value);
+
+        // Get a directory handle for the directory where you want to save the file
+        const writable = await fileHandle.createWritable();
+        const logFile = await fileHandle.getFile();
+        const existingData = await logFile.text();
+        await writable.seek(writable.length); // move the file pointer to the end of the file
+        await writable.write(existingData + logData + "\n");
+        await writable.close();
       }
     } else {
-      alert("ATTENTION: Send Mode not active!");
+      alert("ATTENTION: Invalid Data Type");
     }
-
     // Close the writer
     try {
       await writer.close();
     } catch (e) {
       console.error("Failed to close writer: " + e);
     }
-
-    
 
     // Close the serial port
     try {
@@ -276,7 +309,7 @@ async function sendData() {
       break;
     }
 
-    await new Promise(resolve => setTimeout(resolve, selectedDelay));
+    await new Promise((resolve) => setTimeout(resolve, selectedDelay));
     repeatTransmission = document.getElementById("repeat").checked;
   } while (repeatTransmission);
 }
