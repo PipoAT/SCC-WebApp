@@ -83,8 +83,29 @@ function animateBackgroundrec() {
   }, 2000);
 }
 
+function createInputFields() {
+  const inputCount = document.getElementById("inputCount").value;
+  if (inputCount <= 100) {
+    let inputFieldsHTML = "";
+    for (let i = 0; i < inputCount; i++) {
+      inputFieldsHTML += `<form id="inputForm">
+                          <label for="input${i + 1}">Input ${i + 1}</label>
+                          <input class="form-control w-100" type="text" aria-label="input${
+                            i + 1
+                          }" id="input${i + 1}">
+                        </form>`;
+    }
+    document.getElementById("inputFields").innerHTML = inputFieldsHTML;
+  } else {
+    alert("WARNING: Requested Tx Buffer exceeds Rx Buffer Allowance");
+  }
+}
+
 function TxRxCaller() {
-  if (document.getElementById("Mode").value == "Send Mode" || document.getElementById("Mode").value == "SR") {
+  if (
+    document.getElementById("Mode").value == "Send Mode" ||
+    document.getElementById("Mode").value == "SR"
+  ) {
     sendData();
   } else if (document.getElementById("Mode").value == "Receive Mode") {
     receiveData();
@@ -167,7 +188,7 @@ async function receiveData() {
       break;
     }
 
-    if (i >= 7) {
+    if (i >= 100) {
       break;
     }
 
@@ -213,7 +234,7 @@ async function sendData() {
       const inputElement = document.getElementById("input" + i);
       inputData.push(inputElement.value);
     }
-    
+
     const inputDataString = inputData.join("");
 
     // Now inputData contains an array of all the input values
@@ -311,7 +332,6 @@ async function sendData() {
     }
 
     if (document.getElementById("Mode").value == "SR") {
-      
       const reader = port.readable.getReader();
 
       // Read the incoming data
@@ -349,7 +369,7 @@ async function sendData() {
         await writable.close();
       }
 
-      if (j >= 7){
+      if (j >= 100) {
         break;
       }
 
