@@ -230,7 +230,7 @@ async function sendData() {
     // Get the input element
     let inputData = [];
 
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= inputCount; i++) {
       const inputElement = document.getElementById("input" + i);
       inputData.push(inputElement.value);
     }
