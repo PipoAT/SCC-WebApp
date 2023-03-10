@@ -166,7 +166,7 @@ async function receiveData() {
       break;
     }
 
-    if (i >= 5) {
+    if (i >= 7) {
       break;
     }
 
@@ -206,11 +206,19 @@ async function sendData() {
     // Create a writer object for sending data
     const writer = port.writable.getWriter();
     // Get the input element
-    var inputElement = document.getElementById("Input");
+    let inputData = [];
+
+    for (let i = 1; i <= 7; i++) {
+      const inputElement = document.getElementById("input" + i);
+      inputData.push(inputElement.value);
+    }
+
+    // Now inputData contains an array of all the input values
+    // You can use this array to send the data out
 
     // Get the input value and convert it to a UTF-8 encoded byte array
     var utf8Encoder = new TextEncoder();
-    var utf8EncodedArray = utf8Encoder.encode(inputElement.value);
+    var utf8EncodedArray = utf8Encoder.encode(inputData);
 
     // Store the encoded byte array in a buffer variable
     var buf = new Uint8Array(utf8EncodedArray);
@@ -236,14 +244,14 @@ async function sendData() {
       }
     } else if (document.getElementById("DataType").value == "String") {
       await writer.write(
-        new TextEncoder().encode(document.getElementById("Input").value),
+        new TextEncoder().encode(inputData),
         animateBackground()
       );
 
       if (logTransmission) {
         // Log the transmission to a file
         const logData =
-          "Transmission: " + document.getElementById("Input").value;
+          "Transmission: " + inputData;
 
         // Get a directory handle for the directory where you want to save the file
         const writable = await fileHandle.createWritable();
@@ -256,7 +264,7 @@ async function sendData() {
     } else if (document.getElementById("DataType").value == "ASCII") {
       await writer.write(
         new TextEncoder().encode(
-          String.fromCharCode(document.getElementById("Input").value)
+          String.fromCharCode(inputData)
         ),
         animateBackground()
       );
@@ -265,7 +273,7 @@ async function sendData() {
         // Log the transmission to a file
         const logData =
           "Transmission: " +
-          String.fromCharCode(document.getElementById("Input").value);
+          String.fromCharCode(inputData);
 
         // Get a directory handle for the directory where you want to save the file
         const writable = await fileHandle.createWritable();
@@ -277,14 +285,14 @@ async function sendData() {
       }
     } else if (document.getElementById("DataType").value == "HEX") {
       await writer.write(
-        new TextEncoder().encode(a2hex(document.getElementById("Input").value)),
+        new TextEncoder().encode(a2hex(inputData)),
         animateBackground()
       );
 
       if (logTransmission) {
         // Log the transmission to a file
         const logData =
-          "Transmission: " + a2hex(document.getElementById("Input").value);
+          "Transmission: " + a2hex(inputData);
 
         // Get a directory handle for the directory where you want to save the file
         const writable = await fileHandle.createWritable();
