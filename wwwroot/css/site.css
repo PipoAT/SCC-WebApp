@@ -23,8 +23,6 @@ body {
   transition: background-color 2s ease-in-out;
   background-size: cover;
   background-repeat: fill;
-  background-position: center;
-  margin: 0 auto; /* Center the container */
 }
 
 .row {
@@ -49,6 +47,22 @@ input[type=radio] {
   width: 15px;
   height: 15px;
 
+}
+
+.col-sm-3 {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.col-sm-3 {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .col-sm-4 {

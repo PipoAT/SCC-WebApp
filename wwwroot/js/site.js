@@ -101,6 +101,7 @@ async function receiveData() {
   const dirHandle = await window.showDirectoryPicker();
 
   let repeatTransmission = true;
+  let i = 1;
   do {
     // Request permission to access the serial port
 
@@ -134,7 +135,7 @@ async function receiveData() {
     }
 
     // Display the received data
-    document.getElementById("Output").value = receivedData;
+    document.getElementById("output" + i).value = receivedData;
 
     if (logTransmission) {
       // Log the transmission to a file
@@ -165,9 +166,14 @@ async function receiveData() {
       break;
     }
 
+    if (i >= 5) {
+      break;
+    }
+
     await new Promise((resolve) => setTimeout(resolve, selectedDelay));
     // Check if the "Repeat Transmission?" checkbox is checked
     repeatTransmission = document.getElementById("repeat").checked;
+    i++;
   } while (repeatTransmission);
 }
 
