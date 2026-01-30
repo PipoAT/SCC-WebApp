@@ -185,6 +185,7 @@ async function receiveData() {
   const logTransmission = document.getElementById("log").checked;
   let port = null;
   let dirHandle = null;
+  let portOpened = false;
 
   try {
     // Request permission to access the serial port
@@ -205,13 +206,14 @@ async function receiveData() {
   do {
     try {
       // Open the serial port with configured settings
-      if (!port.readable) {
+      if (!portOpened) {
         await port.open({
           parity: selectedParity,
           baudRate: selectedBaudRate,
           dataBits: selectedDataBits,
           stopBits: selectedStopBits,
         });
+        portOpened = true;
       }
 
       // Create a reader object for receiving data
@@ -259,6 +261,7 @@ async function receiveData() {
       // Close the serial port
       try {
         await port.close();
+        portOpened = false;
       } catch (e) {
         console.error("Failed to close port:", e);
       }
@@ -280,8 +283,9 @@ async function receiveData() {
       
       // Try to close the port if it's open
       try {
-        if (port && port.readable) {
+        if (port && portOpened) {
           await port.close();
+          portOpened = false;
         }
       } catch (closeError) {
         console.error("Failed to close port after error:", closeError);
@@ -297,6 +301,8 @@ async function sendData() {
   let port = null;
   let dirHandle = null;
   let fileHandle = null;
+  let portOpened = false;
+  let j = 1; // Counter for received data in Send and Receive mode
 
   try {
     // Request permission to access the serial port
@@ -321,13 +327,14 @@ async function sendData() {
   do {
     try {
       // Open the serial port with configured settings
-      if (!port.readable) {
+      if (!portOpened) {
         await port.open({
           parity: selectedParity,
           baudRate: selectedBaudRate,
           dataBits: selectedDataBits,
           stopBits: selectedStopBits,
         });
+        portOpened = true;
       }
 
       // Create a writer object for sending data
@@ -455,6 +462,7 @@ async function sendData() {
       // Close the serial port
       try {
         await port.close();
+        portOpened = false;
       } catch (e) {
         console.error("Failed to close port:", e);
       }
@@ -471,8 +479,9 @@ async function sendData() {
       
       // Try to close the port if it's open
       try {
-        if (port && port.readable) {
+        if (port && portOpened) {
           await port.close();
+          portOpened = false;
         }
       } catch (closeError) {
         console.error("Failed to close port after error:", closeError);
