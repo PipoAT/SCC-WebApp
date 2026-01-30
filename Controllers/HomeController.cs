@@ -16,12 +16,26 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        string[] ports = SerialPort.GetPortNames(); // checks for any available serial ports and displays
-        if (ports.Length == 0)
+        try
         {
-            ViewData["Message"] = "No serial ports found.";
+            string[] ports = SerialPort.GetPortNames(); // checks for any available serial ports and displays
+            if (ports.Length == 0)
+            {
+                ViewData["Message"] = "No serial ports found.";
+                _logger.LogInformation("No serial ports detected on the system.");
+            }
+            else
+            {
+                _logger.LogInformation("Detected {PortCount} serial port(s): {Ports}", ports.Length, string.Join(", ", ports));
+            }
+            return View(ports);
         }
-        return View(ports);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while retrieving serial ports");
+            ViewData["Message"] = "Error: Unable to retrieve serial ports. " + ex.Message;
+            return View(Array.Empty<string>());
+        }
     }
 
     public IActionResult Updates() {
