@@ -1,16 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "VBrx/DWJD7ZV0jDs5959qd9Aa+KIj1urEiPDpqKVfs28e2LgyRBQGKNhCJ/c2GFe+bl1whwqKiMuq1GUZADgmQ==",
+  "dgSpecHash": "cKPkGRZHFPE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\apmar\\OneDrive\\Desktop\\ATech\\AT-SCC-WebApp\\SCC-WebApp\\SCC.csproj",
+  "projectFilePath": "/home/runner/work/SCC-WebApp/SCC-WebApp/SCC.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-x64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.native.system.io.ports\\8.0.0\\runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.osx-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\8.0.0\\runtime.osx-x64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
-    "C:\\Users\\apmar\\.nuget\\packages\\system.io.ports\\8.0.0\\system.io.ports.8.0.0.nupkg.sha512"
+    "/home/runner/.nuget/packages/runtime.linux-arm.runtime.native.system.io.ports/8.0.0/runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/runtime.linux-arm64.runtime.native.system.io.ports/8.0.0/runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/runtime.linux-x64.runtime.native.system.io.ports/8.0.0/runtime.linux-x64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/runtime.native.system.io.ports/8.0.0/runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/runtime.osx-arm64.runtime.native.system.io.ports/8.0.0/runtime.osx-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/runtime.osx-x64.runtime.native.system.io.ports/8.0.0/runtime.osx-x64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/system.io.ports/8.0.0/system.io.ports.8.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.windowsdesktop.app.ref/8.0.23/microsoft.windowsdesktop.app.ref.8.0.23.nupkg.sha512"
   ],
   "logs": []
 }
