@@ -24,5 +24,14 @@ jobs:
       run: dotnet restore SCC-WebApp.sln
     - name: Build
       run: dotnet build SCC-WebApp.sln --no-restore
+    - name: Check for test projects
+      id: check-tests
+      run: |
+        if dotnet sln SCC-WebApp.sln list | grep -i test; then
+          echo "has_tests=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_tests=false" >> $GITHUB_OUTPUT
+        fi
     - name: Test
+      if: steps.check-tests.outputs.has_tests == 'true'
       run: dotnet test SCC-WebApp.sln --no-build --verbosity normal

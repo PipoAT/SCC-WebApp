@@ -84,8 +84,25 @@ function animateBackgroundrec() {
 }
 
 function createInputFields() {
-  const inputCount = document.getElementById("inputCount").value;
-  if (inputCount <= 100) {
+  const inputCountElement = document.getElementById("inputCount");
+  if (!inputCountElement) {
+    alert("Error: Input count field not found.");
+    return;
+  }
+
+  const inputCount = parseInt(inputCountElement.value);
+  
+  if (isNaN(inputCount) || inputCount <= 0) {
+    alert("Error: Please enter a valid positive number for the input count.");
+    return;
+  }
+
+  if (inputCount > 100) {
+    alert("WARNING: Requested Tx Buffer exceeds Rx Buffer Allowance (maximum 100)");
+    return;
+  }
+
+  try {
     let inputFieldsHTML = "";
     for (let i = 0; i < inputCount; i++) {
       inputFieldsHTML += `<form id="inputForm">
@@ -96,301 +113,380 @@ function createInputFields() {
                         </form>`;
     }
     document.getElementById("inputFields").innerHTML = inputFieldsHTML;
-  } else {
-    alert("WARNING: Requested Tx Buffer exceeds Rx Buffer Allowance");
+  } catch (error) {
+    console.error("Error creating input fields:", error);
+    alert("Error: Failed to create input fields. " + error.message);
   }
 }
 
 function TxRxCaller() {
-  if (
-    document.getElementById("Mode").value == "Send Mode" ||
-    document.getElementById("Mode").value == "SR"
-  ) {
-    sendData();
-  } else if (document.getElementById("Mode").value == "Receive Mode") {
-    receiveData();
-  } else {
+  // Validate required settings before starting transmission
+  const mode = document.getElementById("Mode").value;
+  const baudRate = selectedBaudRate;
+  const parity = selectedParity;
+  const dataBits = selectedDataBits;
+  const stopBits = selectedStopBits;
+  const dataType = document.getElementById("DataType").value;
+
+  // Check for Idle Mode
+  if (mode === "Idle Mode") {
     alert(
       "Attention: Application is in Idle Mode. Please configure settings and try again."
     );
+    return;
+  }
+
+  // Validate required serial port settings
+  if (!baudRate || baudRate === 0) {
+    alert("Error: Please select a BAUD rate before starting transmission.");
+    return;
+  }
+
+  if (!parity || parity === "") {
+    alert("Error: Please select a Parity option before starting transmission.");
+    return;
+  }
+
+  if (!dataBits || dataBits === 0) {
+    alert("Error: Please select DataBits before starting transmission.");
+    return;
+  }
+
+  if (!stopBits || stopBits === 0) {
+    alert("Error: Please select StopBits before starting transmission.");
+    return;
+  }
+
+  // Validate data type for send modes
+  if ((mode === "Send Mode" || mode === "SR") && (!dataType || dataType === "none")) {
+    alert("Error: Please select a Data Type before starting transmission.");
+    return;
+  }
+
+  // Validate input count for send modes
+  if (mode === "Send Mode" || mode === "SR") {
+    const inputCount = document.getElementById("inputCount").value;
+    if (!inputCount || inputCount <= 0) {
+      alert("Error: Please create input fields before starting transmission.");
+      return;
+    }
+  }
+
+  // All validations passed, proceed with transmission
+  if (mode === "Send Mode" || mode === "SR") {
+    sendData();
+  } else if (mode === "Receive Mode") {
+    receiveData();
   }
 }
 
 async function receiveData() {
   stopLoop = false;
   const logTransmission = document.getElementById("log").checked;
-  const port = await navigator.serial.requestPort();
-  const dirHandle = await window.showDirectoryPicker();
+  let port = null;
+  let dirHandle = null;
+  let portOpened = false;
+
+  try {
+    // Request permission to access the serial port
+    port = await navigator.serial.requestPort();
+    
+    // Request directory handle for logging if enabled
+    if (logTransmission) {
+      dirHandle = await window.showDirectoryPicker();
+    }
+  } catch (error) {
+    console.error("Failed to get serial port or directory access:", error);
+    alert("Error: Failed to get serial port or directory access. " + error.message);
+    return;
+  }
 
   let repeatTransmission = true;
   let i = 1;
   do {
-    // Request permission to access the serial port
-
-    // Open the serial port with a baud rate of 1200
-
-    if (!port.isOpen) {
-      await port.open({
-        parity: selectedParity,
-        baudRate: selectedBaudRate,
-        dataBits: selectedDataBits,
-        stopBits: selectedStopBits,
-        readTimeout: selectedRT,
-        writeTimeout: selectedWT,
-        handshake: selectedHandshake,
-      });
-    }
-    // Create a reader object for receiving data
-    const reader = port.readable.getReader();
-
-    // Read the incoming data
-    const { value, done } = await reader.read();
-
-    // Convert the received data to a string
-    const receivedData = new TextDecoder().decode(value);
-    animateBackgroundrec();
-    // Close the reader and serial port
     try {
-      await reader.cancel();
-    } catch (e) {
-      console.error("Failed to close writer: " + e);
-    }
+      // Open the serial port with configured settings
+      if (!portOpened) {
+        await port.open({
+          parity: selectedParity,
+          baudRate: selectedBaudRate,
+          dataBits: selectedDataBits,
+          stopBits: selectedStopBits,
+        });
+        portOpened = true;
+      }
 
-    // Display the received data
-    document.getElementById("output" + i).value = receivedData;
+      // Create a reader object for receiving data
+      const reader = port.readable.getReader();
 
-    if (logTransmission) {
-      // Log the transmission to a file
-      const logFileName = "transmission.txt";
-      const logData = receivedData;
+      try {
+        // Read the incoming data
+        const { value, done } = await reader.read();
 
-      // Get a directory handle for the directory where you want to save the file
+        // Convert the received data to a string
+        const receivedData = new TextDecoder().decode(value);
+        animateBackgroundrec();
 
-      const fileHandle = await dirHandle.getFileHandle(logFileName, {
-        create: true,
-      });
-      const writable = await fileHandle.createWritable({
-        keepExistingData: true,
-      });
-      await writable.seek(writable.length); // move the file pointer to the end of the file
-      await writable.write(logData);
-      await writable.write("\n");
-      await writable.close();
-    }
+        // Display the received data
+        document.getElementById("output" + i).value = receivedData;
 
-    try {
-      await port.close();
-    } catch (e) {
-      console.error("Failed to close port: " + e);
-    }
+        if (logTransmission && dirHandle) {
+          // Log the transmission to a file
+          const logFileName = "transmission.txt";
+          const logData = receivedData;
 
-    if (stopLoop) {
+          const fileHandle = await dirHandle.getFileHandle(logFileName, {
+            create: true,
+          });
+          const writable = await fileHandle.createWritable({
+            keepExistingData: true,
+          });
+          await writable.seek(writable.length);
+          await writable.write(logData);
+          await writable.write("\n");
+          await writable.close();
+        }
+      } catch (readError) {
+        console.error("Error reading from serial port:", readError);
+        alert("Error reading from serial port: " + readError.message);
+      } finally {
+        // Close the reader
+        try {
+          await reader.cancel();
+        } catch (e) {
+          console.error("Failed to close reader:", e);
+        }
+      }
+
+      // Close the serial port
+      try {
+        await port.close();
+        portOpened = false;
+      } catch (e) {
+        console.error("Failed to close port:", e);
+      }
+
+      if (stopLoop) {
+        break;
+      }
+
+      if (i >= 100) {
+        break;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, selectedDelay));
+      repeatTransmission = document.getElementById("repeat").checked;
+      i++;
+    } catch (error) {
+      console.error("Error during receive operation:", error);
+      alert("Error during receive operation: " + error.message);
+      
+      // Try to close the port if it's open
+      try {
+        if (port && portOpened) {
+          await port.close();
+          portOpened = false;
+        }
+      } catch (closeError) {
+        console.error("Failed to close port after error:", closeError);
+      }
       break;
     }
-
-    if (i >= 100) {
-      break;
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, selectedDelay));
-    // Check if the "Repeat Transmission?" checkbox is checked
-    repeatTransmission = document.getElementById("repeat").checked;
-    i++;
   } while (repeatTransmission);
 }
 
 async function sendData() {
   stopLoop = false;
   const logTransmission = document.getElementById("log").checked;
-  const port = await navigator.serial.requestPort();
-  const dirHandle = await window.showDirectoryPicker();
-  const logFileName = "transmission.txt";
-  const fileHandle = await dirHandle.getFileHandle(logFileName, {
-    create: true,
-  });
+  let port = null;
+  let dirHandle = null;
+  let fileHandle = null;
+  let portOpened = false;
+  let j = 1; // Counter for received data in Send and Receive mode
 
-  do {
+  try {
     // Request permission to access the serial port
-
-    // Open the serial port with a baud rate of 1200
-    if (!port.isOpen) {
-      await port.open({
-        parity: selectedParity,
-        baudRate: selectedBaudRate,
-        dataBits: selectedDataBits,
-        stopBits: selectedStopBits,
-        readTimeout: selectedRT,
-        writeTimeout: selectedWT,
-        handshake: selectedHandshake,
+    port = await navigator.serial.requestPort();
+    
+    // Request directory handle and create file handle for logging if enabled
+    if (logTransmission) {
+      dirHandle = await window.showDirectoryPicker();
+      const logFileName = "transmission.txt";
+      fileHandle = await dirHandle.getFileHandle(logFileName, {
+        create: true,
       });
     }
+  } catch (error) {
+    console.error("Failed to get serial port or directory access:", error);
+    alert("Error: Failed to get serial port or directory access. " + error.message);
+    return;
+  }
 
-    // Create a writer object for sending data
-    const writer = port.writable.getWriter();
-    // Get the input element
-    let inputData = [];
+  let repeatTransmission = true;
 
-    for (let i = 1; i <= inputCount; i++) {
-      const inputElement = document.getElementById("input" + i);
-      inputData.push(inputElement.value);
-    }
-
-    const inputDataString = inputData.join("");
-
-    // Now inputData contains an array of all the input values
-    // You can use this array to send the data out
-
-    // Get the input value and convert it to a UTF-8 encoded byte array
-    var utf8Encoder = new TextEncoder();
-    var utf8EncodedArray = utf8Encoder.encode(inputDataString);
-
-    // Store the encoded byte array in a buffer variable
-    var buf = new Uint8Array(utf8EncodedArray);
-
-    // Send the data
-    if (
-      document.getElementById("DataType").value == "Byte" ||
-      document.getElementById("DataType").value == "BC"
-    ) {
-      await writer.write(new TextEncoder().encode(buf), animateBackground());
-
-      if (logTransmission) {
-        // Log the transmission to a file
-        const logData = "Transmission: " + buf;
-
-        // Get a directory handle for the directory where you want to save the file
-        const writable = await fileHandle.createWritable();
-        const logFile = await fileHandle.getFile();
-        const existingData = await logFile.text();
-        await writable.seek(writable.length); // move the file pointer to the end of the file
-        await writable.write(existingData + logData + "\n");
-        await writable.close();
-      }
-    } else if (document.getElementById("DataType").value == "String") {
-      await writer.write(
-        new TextEncoder().encode(inputDataString),
-        animateBackground()
-      );
-
-      if (logTransmission) {
-        // Log the transmission to a file
-        const logData = "Transmission: " + inputDataString;
-
-        // Get a directory handle for the directory where you want to save the file
-        const writable = await fileHandle.createWritable();
-        const logFile = await fileHandle.getFile();
-        const existingData = await logFile.text();
-        await writable.seek(writable.length); // move the file pointer to the end of the file
-        await writable.write(existingData + logData + "\n");
-        await writable.close();
-      }
-    } else if (document.getElementById("DataType").value == "ASCII") {
-      await writer.write(
-        new TextEncoder().encode(String.fromCharCode(inputDataString)),
-        animateBackground()
-      );
-
-      if (logTransmission) {
-        // Log the transmission to a file
-        const logData = "Transmission: " + String.fromCharCode(inputDataString);
-
-        // Get a directory handle for the directory where you want to save the file
-        const writable = await fileHandle.createWritable();
-        const logFile = await fileHandle.getFile();
-        const existingData = await logFile.text();
-        await writable.seek(writable.length); // move the file pointer to the end of the file
-        await writable.write(existingData + logData + "\n");
-        await writable.close();
-      }
-    } else if (document.getElementById("DataType").value == "HEX") {
-      await writer.write(
-        new TextEncoder().encode(a2hex(inputDataString)),
-        animateBackground()
-      );
-
-      if (logTransmission) {
-        // Log the transmission to a file
-        const logData = "Transmission: " + a2hex(inputDataString);
-
-        // Get a directory handle for the directory where you want to save the file
-        const writable = await fileHandle.createWritable();
-        const logFile = await fileHandle.getFile();
-        const existingData = await logFile.text();
-        await writable.seek(writable.length); // move the file pointer to the end of the file
-        await writable.write(existingData + logData + "\n");
-        await writable.close();
-      }
-    } else {
-      alert("ATTENTION: Invalid Data Type");
-    }
-
-    // Close the writer
+  do {
     try {
-      await writer.close();
-    } catch (e) {
-      console.error("Failed to close writer: " + e);
-    }
+      // Open the serial port with configured settings
+      if (!portOpened) {
+        await port.open({
+          parity: selectedParity,
+          baudRate: selectedBaudRate,
+          dataBits: selectedDataBits,
+          stopBits: selectedStopBits,
+        });
+        portOpened = true;
+      }
 
-    if (document.getElementById("Mode").value == "SR") {
-      const reader = port.readable.getReader();
-
-      // Read the incoming data
-      const { value, done } = await reader.read();
-
-      // Convert the received data to a string
-      const receivedData = new TextDecoder().decode(value);
-      animateBackgroundrec();
-      // Close the reader and serial port
+      // Create a writer object for sending data
+      const writer = port.writable.getWriter();
+      
       try {
-        await reader.cancel();
+        // Get the input data
+        let inputData = [];
+        const inputCount = document.getElementById("inputCount").value;
+
+        for (let i = 1; i <= inputCount; i++) {
+          const inputElement = document.getElementById("input" + i);
+          if (inputElement) {
+            inputData.push(inputElement.value);
+          }
+        }
+
+        const inputDataString = inputData.join("");
+
+        // Encode data based on selected data type
+        let encodedData;
+        let logData;
+        const dataType = document.getElementById("DataType").value;
+
+        switch (dataType) {
+          case "Byte":
+          case "BC":
+            encodedData = new TextEncoder().encode(inputDataString);
+            logData = "Transmission: " + encodedData;
+            break;
+          case "String":
+            encodedData = new TextEncoder().encode(inputDataString);
+            logData = "Transmission: " + inputDataString;
+            break;
+          case "ASCII":
+            encodedData = new TextEncoder().encode(String.fromCharCode(inputDataString));
+            logData = "Transmission: " + String.fromCharCode(inputDataString);
+            break;
+          case "HEX":
+            encodedData = new TextEncoder().encode(a2hex(inputDataString));
+            logData = "Transmission: " + a2hex(inputDataString);
+            break;
+          default:
+            throw new Error("Invalid Data Type selected");
+        }
+
+        // Send the data
+        await writer.write(encodedData);
+        animateBackground();
+
+        // Log the transmission if enabled
+        if (logTransmission && fileHandle) {
+          try {
+            const writable = await fileHandle.createWritable();
+            const logFile = await fileHandle.getFile();
+            const existingData = await logFile.text();
+            await writable.write(existingData + logData + "\n");
+            await writable.close();
+          } catch (logError) {
+            console.error("Failed to log transmission:", logError);
+          }
+        }
+      } catch (writeError) {
+        console.error("Error writing to serial port:", writeError);
+        alert("Error writing to serial port: " + writeError.message);
+      } finally {
+        // Close the writer
+        try {
+          await writer.close();
+        } catch (e) {
+          console.error("Failed to close writer:", e);
+        }
+      }
+
+      // Handle Send and Receive mode
+      if (document.getElementById("Mode").value === "SR") {
+        const reader = port.readable.getReader();
+
+        try {
+          // Read the incoming data
+          const { value, done } = await reader.read();
+
+          // Convert the received data to a string
+          const receivedData = new TextDecoder().decode(value);
+          animateBackgroundrec();
+
+          // Display the received data
+          document.getElementById("output" + j).value = receivedData;
+
+          // Log received data if logging is enabled
+          if (logTransmission && dirHandle) {
+            const logFileName = "transmission.txt";
+            const logData = receivedData;
+
+            const fileHandle = await dirHandle.getFileHandle(logFileName, {
+              create: true,
+            });
+            const writable = await fileHandle.createWritable({
+              keepExistingData: true,
+            });
+            await writable.seek(writable.length);
+            await writable.write(logData);
+            await writable.write("\n");
+            await writable.close();
+          }
+
+          if (j >= 100) {
+            j = 1; // Reset counter
+          } else {
+            j++;
+          }
+        } catch (readError) {
+          console.error("Error reading from serial port:", readError);
+          alert("Error reading from serial port: " + readError.message);
+        } finally {
+          // Close the reader
+          try {
+            await reader.cancel();
+          } catch (e) {
+            console.error("Failed to close reader:", e);
+          }
+        }
+      }
+
+      // Close the serial port
+      try {
+        await port.close();
+        portOpened = false;
       } catch (e) {
-        console.error("Failed to close writer: " + e);
+        console.error("Failed to close port:", e);
       }
 
-      // Display the received data
-      document.getElementById("output" + j).value = receivedData;
-
-      if (logTransmission) {
-        // Log the transmission to a file
-        const logFileName = "transmission.txt";
-        const logData = receivedData;
-
-        // Get a directory handle for the directory where you want to save the file
-
-        const fileHandle = await dirHandle.getFileHandle(logFileName, {
-          create: true,
-        });
-        const writable = await fileHandle.createWritable({
-          keepExistingData: true,
-        });
-        await writable.seek(writable.length); // move the file pointer to the end of the file
-        await writable.write(logData);
-        await writable.write("\n");
-        await writable.close();
-      }
-
-      if (j >= 100) {
+      if (stopLoop) {
         break;
       }
 
       await new Promise((resolve) => setTimeout(resolve, selectedDelay));
-      // Check if the "Repeat Transmission?" checkbox is checked
       repeatTransmission = document.getElementById("repeat").checked;
-      j++;
-    }
-
-    // Close the serial port
-    try {
-      await port.close();
-    } catch (e) {
-      console.error("Failed to close port: " + e);
-    }
-
-    if (stopLoop) {
+    } catch (error) {
+      console.error("Error during send operation:", error);
+      alert("Error during send operation: " + error.message);
+      
+      // Try to close the port if it's open
+      try {
+        if (port && portOpened) {
+          await port.close();
+          portOpened = false;
+        }
+      } catch (closeError) {
+        console.error("Failed to close port after error:", closeError);
+      }
       break;
     }
-
-    await new Promise((resolve) => setTimeout(resolve, selectedDelay));
-    repeatTransmission = document.getElementById("repeat").checked;
   } while (repeatTransmission);
 }
